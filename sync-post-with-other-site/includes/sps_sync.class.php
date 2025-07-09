@@ -24,6 +24,10 @@ if( !class_exists ( 'SPS_Sync' ) ) {
             register_rest_route( 'sps/v1', '/data', array(
                 'methods'  => 'POST',
                 'callback' => array( $this, 'sps_get_request'  ),
+                'permission_callback' => '__return_true'
+                // 'permission_callback' => function () {
+                //     return current_user_can( 'edit_posts' );
+                // }
             ) );
         }
 
@@ -93,10 +97,15 @@ if( !class_exists ( 'SPS_Sync' ) ) {
             if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
                 return;
 
+
             $sps_website = isset($_REQUEST['sps_website']) ? $_REQUEST['sps_website'] : array();
             $status_not = array('auto-draft', 'trash', 'inherit', 'draft');
             if($this->is_website_post && isset($post->post_status) && !in_array($post->post_status, $status_not) && !empty($sps_website) ) {
 
+            if ( ! isset( $_POST['sps_select_website'] ) || ! wp_verify_nonce( $_POST['sps_select_website'], 'sps_nonce_action' ) ) {
+                // Nonce verification failed; handle error or exit.
+                wp_die('verification failed. Please try again');
+            }
                 global $wpdb, $sps, $sps_settings, $post_old_title;
 
                 $args = (array) $post;
