@@ -3,7 +3,7 @@
 Plugin Name: Sync Post With Other Site
 Plugin URI: https://kp4coder.com/
 Description: Allows user to sync post with multiple websites.
-Version: 1.9.1
+Version: 1.9.2
 Author: kp4coder
 Author URI: https://kp4coder.com/
 Domain Path: /languages
@@ -49,9 +49,15 @@ define( 'SPS_JS_URL', SPS_ASSETS_URL.'js/');
 
 // define text domain
 define( 'SPS_txt_domain', 'sps_text_domain' );
+define( 'SPS_PLUGIN_VERSION', '1.9.2' );
+
+function sps_get_asset_version( $asset_path ) {
+    $asset_file = SPS_PLUGIN_DIR . ltrim( $asset_path, '/' );
+    return file_exists( $asset_file ) ? filemtime( $asset_file ) : SPS_PLUGIN_VERSION;
+}
 
 global $sps_version;
-$sps_version = '1.9.1';
+$sps_version = SPS_PLUGIN_VERSION;
 
 class SyncPostWithOtherSite {
 
@@ -173,13 +179,15 @@ class SyncPostWithOtherSite {
 		/* must register style and than enqueue */
 		if( $this->sps_is_page() ) {
 			/*********** register and enqueue styles ***************/
-            wp_register_style( 'sps_admin_style_css',  SPS_CSS_URL.'sps_admin_style.css', false, $sps_version );
+            $admin_style_version = sps_get_asset_version( 'assets/css/sps_admin_style.css' );
+            wp_register_style( 'sps_admin_style_css',  SPS_CSS_URL.'sps_admin_style.css', false, $admin_style_version );
             wp_enqueue_style( 'sps_admin_style_css' );
 
 
 			/*********** register and enqueue scripts ***************/
             echo $this->sps_admin_msg( 'script' );
-            wp_register_script( 'sps_admin_js', SPS_JS_URL.'sps_admin_js.js', 'jQuery', $sps_version, true );
+            $admin_script_version = sps_get_asset_version( 'assets/js/sps_admin_js.js' );
+            wp_register_script( 'sps_admin_js', SPS_JS_URL.'sps_admin_js.js', 'jQuery', $admin_script_version, true );
 			wp_enqueue_script( 'jquery' );
             wp_enqueue_script( 'sps_admin_js' );
 
@@ -192,11 +200,12 @@ class SyncPostWithOtherSite {
         // if( $ncm_template_loader->ncm_is_front_page() ) {
         /*********** register and enqueue styles ***************/
 
+            $front_style_version = sps_get_asset_version( 'assets/css/sps_front_style.css' );
             wp_register_style( 
                 'sps_front_css',  
-                SPS_CSS_URL.'sps_front_style.css?rand='.rand(1,999), 
+                SPS_CSS_URL.'sps_front_style.css', 
                 false, 
-                $sps_version 
+                $front_style_version 
             );
 
             wp_enqueue_style( 'sps_front_css' );
@@ -205,11 +214,12 @@ class SyncPostWithOtherSite {
             /*********** register and enqueue scripts ***************/
             echo "<script> var ajaxurl = '".admin_url( 'admin-ajax.php' )."'; </script>";
 
+            $front_script_version = sps_get_asset_version( 'assets/js/sps_front_js.js' );
             wp_register_script( 
                 'sps_front_js', 
-                SPS_JS_URL.'sps_front_js.js?rand='.rand(1,999), 
+                SPS_JS_URL.'sps_front_js.js', 
                 'jQuery', 
-                $sps_version, 
+                $front_script_version, 
                 true 
             );
 

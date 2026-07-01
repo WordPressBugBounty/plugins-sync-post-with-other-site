@@ -88,8 +88,8 @@ if( !class_exists ( 'SPS_Sync' ) ) {
             do_action( 'spsp_before_send_data', $args );
             $args = apply_filters( 'spsp_before_send_data_args', $args );
             $args['sps_action'] = $action;
-            $url = $args['sps']['host_name']."/index.php?rest_route=/sps/v1/data";    // "/wp-json/sps/v1/data"; 
-            $return = wp_remote_post( $url, array( 'body' => $args ));
+            $url = trailingslashit( $args['sps']['host_name'] ) . 'index.php?rest_route=/sps/v1/data';
+            $return = wp_remote_post( $url, array( 'body' => $args, 'timeout' => 15 ) );
             return $return;
         }
 
@@ -98,7 +98,7 @@ if( !class_exists ( 'SPS_Sync' ) ) {
                 return;
 
 
-            $sps_website = isset($_REQUEST['sps_website']) ? $_REQUEST['sps_website'] : array();
+            $sps_website = isset( $_REQUEST['sps_website'] ) ? array_map( 'sanitize_text_field', (array) wp_unslash( $_REQUEST['sps_website'] ) ) : array();
             $status_not = array('auto-draft', 'trash', 'inherit', 'draft');
             if($this->is_website_post && isset($post->post_status) && !in_array($post->post_status, $status_not) && !empty($sps_website) ) {
 
