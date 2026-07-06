@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/ncp/payment/UGG343HNQLG2N
 Tags: wp sync post, sync post with multiple sites, post content sync, migrate post content, synchronization post
 Requires at least: 4.5
 Tested up to: 6.6.1
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -123,6 +123,9 @@ No. WPSiteSync for Content will just synchronize with the one Post content which
 * Improvement: Added cache-friendly asset versioning for styles and scripts.
 * Improvement: Hardened remote sync request handling for better reliability.
 * Improvement: Safer handling of selected website values before syncing.
+
+= 1.9.3 - July 06, 2026 =
+* fix: enforce proper capability checks for post and page creation
 
 == Upgrade notice ==
 

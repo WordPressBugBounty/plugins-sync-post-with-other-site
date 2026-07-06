@@ -3,7 +3,7 @@
 Plugin Name: Sync Post With Other Site
 Plugin URI: https://kp4coder.com/
 Description: Allows user to sync post with multiple websites.
-Version: 1.9.2
+Version: 1.9.3
 Author: kp4coder
 Author URI: https://kp4coder.com/
 Domain Path: /languages
@@ -49,7 +49,7 @@ define( 'SPS_JS_URL', SPS_ASSETS_URL.'js/');
 
 // define text domain
 define( 'SPS_txt_domain', 'sps_text_domain' );
-define( 'SPS_PLUGIN_VERSION', '1.9.2' );
+define( 'SPS_PLUGIN_VERSION', '1.9.3' );
 
 function sps_get_asset_version( $asset_path ) {
     $asset_file = SPS_PLUGIN_DIR . ltrim( $asset_path, '/' );

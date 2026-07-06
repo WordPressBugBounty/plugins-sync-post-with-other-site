@@ -413,7 +413,16 @@ if( !class_exists ( 'SPS_Sync' ) ) {
                             $return['status'] = __('success', SPS_txt_domain);
                             $return['msg'] = __('Authenitcate successfully.', SPS_txt_domain);
                         } else {
-                            if( ( $sps_sync_data['post_type'] == 'page' && $author->has_cap('edit_pages') ) || $author->has_cap('edit_posts') ) {
+                            $post_type = isset( $sps_sync_data['post_type'] ) ? $sps_sync_data['post_type'] : '';
+                            if ( 'page' === $post_type ) {
+                                if ( $author->has_cap( 'edit_pages' ) ) {
+                                    $sps_sync_data['content_match'] = $sps_content_match;
+                                    $return = call_user_func( array( $this, $sps_action ), $author, $sps_sync_data );
+                                } else {
+                                    $return['status'] = __('success', SPS_txt_domain);
+                                    $return['msg'] = __('You do not have permission to do the action.', SPS_txt_domain);
+                                }
+                            } elseif ( $author->has_cap( 'edit_posts' ) ) {
                                 $sps_sync_data['content_match'] = $sps_content_match;
                                 $return = call_user_func( array( $this, $sps_action ), $author, $sps_sync_data );
                             } else {
