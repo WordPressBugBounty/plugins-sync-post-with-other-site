@@ -3,7 +3,7 @@ Contributors: kp4coder
 Donate link: https://www.paypal.com/ncp/payment/UGG343HNQLG2N
 Tags: wp sync post, sync post with multiple sites, post content sync, migrate post content, synchronization post
 Requires at least: 4.5
-Tested up to: 6.6.1
+Tested up to: 7.0
 Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
